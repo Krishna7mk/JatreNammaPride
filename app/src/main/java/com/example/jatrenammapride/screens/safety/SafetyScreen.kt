@@ -31,6 +31,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.example.jatrenammapride.ui.theme.FestivalOrange
+import com.example.jatrenammapride.ui.theme.LightCream
 
 @OptIn(ExperimentalMaterial3Api::class)
 
@@ -44,7 +46,7 @@ fun SafetyScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color(0xFFFFF3E0))
+            .background(LightCream)
             .padding(20.dp),
 
         horizontalAlignment = Alignment.CenterHorizontally
@@ -142,7 +144,7 @@ fun SafetyScreen(
                     modifier = Modifier.fillMaxWidth(),
 
                     colors = ButtonDefaults.buttonColors(
-                        containerColor = Color(0xFFD84315)
+                        containerColor = FestivalOrange
                     )
                 ) {
 

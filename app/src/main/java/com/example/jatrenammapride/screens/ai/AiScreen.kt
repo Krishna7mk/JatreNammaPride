@@ -32,6 +32,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.example.jatrenammapride.ui.theme.FestivalOrange
+import com.example.jatrenammapride.ui.theme.LightCream
+import com.example.jatrenammapride.ui.theme.PrimaryRed
 
 @OptIn(ExperimentalMaterial3Api::class)
 
@@ -47,7 +50,7 @@ fun AiScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color(0xFFFFF3E0))
+            .background(LightCream)
             .verticalScroll(rememberScrollState())
     ) {
 
@@ -82,7 +85,7 @@ fun AiScreen(
                 text = "Know the Legend",
                 fontSize = 30.sp,
                 fontWeight = FontWeight.Bold,
-                color = Color(0xFFB71C1C)
+                color = PrimaryRed
             )
 
             Spacer(modifier = Modifier.height(20.dp))
@@ -110,7 +113,7 @@ fun AiScreen(
                 shape = RoundedCornerShape(18.dp),
 
                 colors = ButtonDefaults.buttonColors(
-                    containerColor = Color(0xFFD84315)
+                    containerColor = FestivalOrange
                 )
             ) {
 

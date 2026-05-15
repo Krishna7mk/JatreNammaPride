@@ -37,7 +37,11 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import com.google.firebase.auth.FirebaseAuth
+import com.example.jatrenammapride.firebase.FirebaseModule
+import com.example.jatrenammapride.navigation.Screen
+import com.example.jatrenammapride.ui.theme.FestivalOrange
+import com.example.jatrenammapride.ui.theme.LightCream
+import com.example.jatrenammapride.ui.theme.PrimaryRed
 
 @OptIn(ExperimentalMaterial3Api::class)
 
@@ -48,7 +52,6 @@ fun AdminLoginScreen(
 
     val context = LocalContext.current
 
-    val auth = FirebaseAuth.getInstance()
 
     var email by remember {
         mutableStateOf("")
@@ -61,7 +64,7 @@ fun AdminLoginScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color(0xFFFFF3E0))
+            .background(LightCream)
             .padding(20.dp),
 
         verticalArrangement = Arrangement.Top,
@@ -118,7 +121,7 @@ fun AdminLoginScreen(
                     text = "Admin Login",
                     fontSize = 30.sp,
                     fontWeight = FontWeight.Bold,
-                    color = Color(0xFFB71C1C)
+                    color = PrimaryRed
                 )
 
                 Spacer(modifier = Modifier.height(24.dp))
@@ -182,7 +185,8 @@ fun AdminLoginScreen(
                             return@Button
                         }
 
-                        auth.signInWithEmailAndPassword(
+                        FirebaseModule.auth
+                            .signInWithEmailAndPassword(
                             email,
                             password
                         )
@@ -196,7 +200,7 @@ fun AdminLoginScreen(
                                 ).show()
 
                                 navController.navigate(
-                                    "admin_panel"
+                                    Screen.AdminPanel.route
                                 )
                             }
 
@@ -216,7 +220,7 @@ fun AdminLoginScreen(
                     shape = RoundedCornerShape(14.dp),
 
                     colors = ButtonDefaults.buttonColors(
-                        containerColor = Color(0xFFD84315)
+                        containerColor = FestivalOrange
                     )
                 ) {
 

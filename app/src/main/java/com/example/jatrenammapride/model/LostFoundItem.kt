@@ -1,5 +1,8 @@
 package com.example.jatrenammapride.model
 
+import androidx.annotation.Keep
+
+@Keep
 data class LostFoundItem(
 
     val id: String = "",

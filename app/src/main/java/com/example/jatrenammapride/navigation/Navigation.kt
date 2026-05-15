@@ -30,6 +30,8 @@ import com.example.jatrenammapride.screens.lostfound.LostFoundScreen
 import com.example.jatrenammapride.screens.maps.MapScreen
 import com.example.jatrenammapride.screens.safety.SafetyScreen
 import com.example.jatrenammapride.screens.schedule.ScheduleScreen
+import com.example.jatrenammapride.navigation.Screen
+
 
 @Composable
 fun AppNavigation() {
@@ -50,10 +52,10 @@ fun AppNavigation() {
 
                 NavigationBarItem(
 
-                    selected = currentRoute == "home",
+                    selected = currentRoute == Screen.Home.route,
 
                     onClick = {
-                        navController.navigate("home")
+                        navController.navigate(Screen.Home.route)
                     },
 
                     icon = {
@@ -70,10 +72,10 @@ fun AppNavigation() {
 
                 NavigationBarItem(
 
-                    selected = currentRoute == "schedule",
+                    selected = currentRoute == Screen.Schedule.route,
 
                     onClick = {
-                        navController.navigate("schedule")
+                        navController.navigate(Screen.Schedule.route)
                     },
 
                     icon = {
@@ -90,10 +92,10 @@ fun AppNavigation() {
 
                 NavigationBarItem(
 
-                    selected = currentRoute == "map",
+                    selected = currentRoute == Screen.Map.route,
 
                     onClick = {
-                        navController.navigate("map")
+                        navController.navigate(Screen.Map.route)
                     },
 
                     icon = {
@@ -110,10 +112,10 @@ fun AppNavigation() {
 
                 NavigationBarItem(
 
-                    selected = currentRoute == "lostfound",
+                    selected = currentRoute == Screen.LostFound.route,
 
                     onClick = {
-                        navController.navigate("lostfound")
+                        navController.navigate(Screen.LostFound.route)
                     },
 
                     icon = {
@@ -130,10 +132,10 @@ fun AppNavigation() {
 
                 NavigationBarItem(
 
-                    selected = currentRoute == "safety",
+                    selected = currentRoute == Screen.Safety.route,
 
                     onClick = {
-                        navController.navigate("safety")
+                        navController.navigate(Screen.Safety.route)
                     },
 
                     icon = {
@@ -150,10 +152,10 @@ fun AppNavigation() {
 
                 NavigationBarItem(
 
-                    selected = currentRoute == "ai",
+                    selected = currentRoute == Screen.Ai.route,
 
                     onClick = {
-                        navController.navigate("ai")
+                        navController.navigate(Screen.Ai.route)
                     },
 
                     icon = {
@@ -170,10 +172,10 @@ fun AppNavigation() {
 
                 NavigationBarItem(
 
-                    selected = currentRoute == "admin",
+                    selected = currentRoute == Screen.Admin.route,
 
                     onClick = {
-                        navController.navigate("admin")
+                        navController.navigate(Screen.Admin.route)
                     },
 
                     icon = {
@@ -197,52 +199,52 @@ fun AppNavigation() {
 
             navController = navController,
 
-            startDestination = "home",
+            startDestination = Screen.Home.route,
 
             modifier = Modifier.padding(paddingValues)
         ) {
 
-            composable("home") {
+            composable(Screen.Home.route) {
 
                 HomeScreen()
             }
 
-            composable("schedule") {
+            composable(Screen.Schedule.route) {
 
                 ScheduleScreen(navController)
             }
 
-            composable("map") {
+            composable(Screen.Map.route) {
 
                 MapScreen(navController)
             }
 
-            composable("lostfound") {
+            composable(Screen.LostFound.route) {
 
                 LostFoundScreen(navController)
             }
 
-            composable("safety") {
+            composable(Screen.Safety.route) {
 
                 SafetyScreen(navController)
             }
 
-            composable("ai") {
+            composable(Screen.Ai.route) {
 
                 AiScreen(navController)
             }
 
-            composable("admin") {
+            composable(Screen.Admin.route) {
 
                 AdminLoginScreen(navController)
             }
 
-            composable("admin_panel") {
+            composable(Screen.AdminPanel.route) {
 
                 AdminPanelScreen(navController)
             }
 
-            composable("admin_lostfound") {
+            composable(Screen.AdminLostFound.route) {
 
                 AdminLostFoundScreen(navController)
             }

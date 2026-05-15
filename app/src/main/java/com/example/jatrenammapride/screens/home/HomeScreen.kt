@@ -29,6 +29,11 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.size
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.vector.ImageVector
+import com.example.jatrenammapride.ui.theme.DarkBrown
+import com.example.jatrenammapride.ui.theme.FestivalOrange
+import com.example.jatrenammapride.ui.theme.LightCream
+import com.example.jatrenammapride.ui.theme.PrimaryRed
 
 @Composable
 fun HomeScreen() {
@@ -39,7 +44,7 @@ fun HomeScreen() {
             .background(
                 brush = Brush.verticalGradient(
                     colors = listOf(
-                        Color(0xFFFFF3E0),
+                        LightCream,
                         Color(0xFFFFE0B2)
                     )
                 )
@@ -54,7 +59,7 @@ fun HomeScreen() {
         Icon(
             imageVector = Icons.Default.Celebration,
             contentDescription = "Festival",
-            tint = Color(0xFFD84315),
+            tint = FestivalOrange,
             modifier = Modifier.size(90.dp)
         )
 
@@ -64,7 +69,7 @@ fun HomeScreen() {
             text = "Jatre Namma Pride",
             fontSize = 34.sp,
             fontWeight = FontWeight.ExtraBold,
-            color = Color(0xFFB71C1C)
+            color = PrimaryRed
         )
 
         Spacer(modifier = Modifier.height(10.dp))
@@ -72,7 +77,7 @@ fun HomeScreen() {
         Text(
             text = "Celebrate Karnataka Culture",
             fontSize = 18.sp,
-            color = Color(0xFF5D4037)
+            color = DarkBrown
         )
 
         Spacer(modifier = Modifier.height(35.dp))
@@ -99,7 +104,7 @@ fun HomeScreen() {
                     text = "Festival Highlights",
                     fontSize = 24.sp,
                     fontWeight = FontWeight.Bold,
-                    color = Color(0xFFD84315)
+                    color = FestivalOrange
                 )
 
                 Spacer(modifier = Modifier.height(20.dp))
@@ -164,7 +169,7 @@ fun HomeScreen() {
 
 @Composable
 fun FeatureRow(
-    icon: androidx.compose.ui.graphics.vector.ImageVector,
+    icon: ImageVector,
     title: String
 ) {
 
@@ -175,7 +180,7 @@ fun FeatureRow(
         Icon(
             imageVector = icon,
             contentDescription = null,
-            tint = Color(0xFFB71C1C),
+            tint = PrimaryRed,
             modifier = Modifier.size(30.dp)
         )
 

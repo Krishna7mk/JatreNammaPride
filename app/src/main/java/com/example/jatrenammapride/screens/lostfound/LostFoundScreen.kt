@@ -24,7 +24,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
@@ -37,8 +37,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.example.jatrenammapride.firebase.FirebaseModule
 import com.example.jatrenammapride.model.LostFoundItem
-import com.google.firebase.firestore.FirebaseFirestore
+import com.example.jatrenammapride.ui.theme.FestivalOrange
+import com.example.jatrenammapride.ui.theme.GreenColor
+import com.example.jatrenammapride.ui.theme.LightCream
 import java.util.UUID
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -49,8 +52,6 @@ fun LostFoundScreen(
 ) {
 
     val context = LocalContext.current
-
-    val firestore = FirebaseFirestore.getInstance()
 
     var title by remember {
         mutableStateOf("")
@@ -64,9 +65,10 @@ fun LostFoundScreen(
         mutableStateListOf<LostFoundItem>()
     }
 
-    LaunchedEffect(Unit) {
+    DisposableEffect(Unit) {
 
-        firestore.collection("lost_found")
+        val listener = FirebaseModule.firestore
+            .collection("lost_found")
             .addSnapshotListener { value, _ ->
 
                 itemList.clear()
@@ -82,12 +84,14 @@ fun LostFoundScreen(
                     }
                 }
             }
+
+        onDispose { listener.remove() }
     }
 
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color(0xFFFFF3E0))
+            .background(LightCream)
             .padding(16.dp)
     ) {
 
@@ -153,7 +157,7 @@ fun LostFoundScreen(
                     resolved = false
                 )
 
-                firestore.collection("lost_found")
+                FirebaseModule.firestore.collection("lost_found")
                     .document(item.id)
                     .set(item)
 
@@ -172,7 +176,7 @@ fun LostFoundScreen(
             shape = RoundedCornerShape(14.dp),
 
             colors = ButtonDefaults.buttonColors(
-                containerColor = Color(0xFFD84315)
+                containerColor = FestivalOrange
             )
         ) {
 
@@ -232,7 +236,7 @@ fun LostFoundScreen(
 
                             color =
                                 if (item.resolved)
-                                    Color(0xFF2E7D32)
+                                    GreenColor
                                 else
                                     Color.Red
                         )

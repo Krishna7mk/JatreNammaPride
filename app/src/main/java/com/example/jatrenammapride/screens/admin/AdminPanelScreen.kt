@@ -25,7 +25,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
@@ -38,8 +38,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.example.jatrenammapride.firebase.FirebaseModule
 import com.example.jatrenammapride.model.Event
-import com.google.firebase.firestore.FirebaseFirestore
+import com.example.jatrenammapride.navigation.Screen
+import com.example.jatrenammapride.ui.theme.FestivalOrange
+import com.example.jatrenammapride.ui.theme.LightCream
 import java.util.UUID
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -50,8 +53,6 @@ fun AdminPanelScreen(
 
     val context = LocalContext.current
 
-    val firestore = FirebaseFirestore.getInstance()
-
     var title by remember { mutableStateOf("") }
     var time by remember { mutableStateOf("") }
     var location by remember { mutableStateOf("") }
@@ -60,9 +61,10 @@ fun AdminPanelScreen(
         mutableStateListOf<Event>()
     }
 
-    LaunchedEffect(Unit) {
+    DisposableEffect(Unit) {
 
-        firestore.collection("schedule")
+        val listener = FirebaseModule.firestore
+            .collection("schedule")
             .addSnapshotListener { value, _ ->
 
                 eventList.clear()
@@ -77,12 +79,14 @@ fun AdminPanelScreen(
                     }
                 }
             }
+
+        onDispose { listener.remove() }
     }
 
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color(0xFFFFF3E0))
+            .background(LightCream)
             .padding(16.dp),
 
         verticalArrangement = Arrangement.Top
@@ -179,7 +183,8 @@ fun AdminPanelScreen(
                     isLive = false
                 )
 
-                firestore.collection("schedule")
+                FirebaseModule.firestore
+                    .collection("schedule")
                     .document(event.id)
                     .set(event)
 
@@ -197,7 +202,7 @@ fun AdminPanelScreen(
             modifier = Modifier.fillMaxWidth(),
 
             colors = ButtonDefaults.buttonColors(
-                containerColor = Color(0xFFD84315)
+                containerColor = FestivalOrange
             )
         ) {
 
@@ -209,7 +214,7 @@ fun AdminPanelScreen(
         Button(
 
             onClick = {
-                navController.navigate("admin_lostfound")
+                navController.navigate(Screen.AdminLostFound.route)
             },
 
             modifier = Modifier.fillMaxWidth(),
@@ -224,7 +229,11 @@ fun AdminPanelScreen(
 
         Spacer(modifier = Modifier.height(20.dp))
 
-        LazyColumn {
+        LazyColumn(
+
+            modifier = Modifier.weight(1f)
+
+        ) {
 
             items(eventList) { event ->
 
@@ -260,7 +269,8 @@ fun AdminPanelScreen(
 
                             onClick = {
 
-                                firestore.collection("schedule")
+                                FirebaseModule.firestore
+                                    .collection("schedule")
                                     .document(event.id)
                                     .delete()
                             },

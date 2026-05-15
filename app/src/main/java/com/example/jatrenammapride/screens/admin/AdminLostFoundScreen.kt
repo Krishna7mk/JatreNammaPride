@@ -22,7 +22,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -31,8 +31,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.example.jatrenammapride.firebase.FirebaseModule
 import com.example.jatrenammapride.model.LostFoundItem
-import com.google.firebase.firestore.FirebaseFirestore
+import com.example.jatrenammapride.ui.theme.LightCream
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -40,15 +41,14 @@ fun AdminLostFoundScreen(
     navController: NavController
 ) {
 
-    val firestore = FirebaseFirestore.getInstance()
-
     val itemList = remember {
         mutableStateListOf<LostFoundItem>()
     }
 
-    LaunchedEffect(Unit) {
+    DisposableEffect(Unit) {
 
-        firestore.collection("lost_found")
+        val listener = FirebaseModule.firestore
+            .collection("lost_found")
             .addSnapshotListener { value, _ ->
 
                 itemList.clear()
@@ -63,12 +63,14 @@ fun AdminLostFoundScreen(
                     }
                 }
             }
+
+        onDispose { listener.remove() }
     }
 
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color(0xFFFFF3E0))
+            .background(LightCream)
             .padding(16.dp)
     ) {
 
@@ -132,12 +134,10 @@ fun AdminLostFoundScreen(
 
                             onCheckedChange = {
 
-                                firestore.collection("lost_found")
+                                FirebaseModule.firestore
+                                    .collection("lost_found")
                                     .document(item.id)
-                                    .update(
-                                        "resolved",
-                                        it
-                                    )
+                                    .update("resolved", it)
                             }
                         )
 
@@ -147,7 +147,8 @@ fun AdminLostFoundScreen(
 
                             onClick = {
 
-                                firestore.collection("lost_found")
+                                FirebaseModule.firestore
+                                    .collection("lost_found")
                                     .document(item.id)
                                     .delete()
                             },

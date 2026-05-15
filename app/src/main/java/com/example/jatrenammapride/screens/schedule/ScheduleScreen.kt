@@ -20,7 +20,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -29,8 +29,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.example.jatrenammapride.firebase.FirebaseModule
 import com.example.jatrenammapride.model.Event
-import com.google.firebase.firestore.FirebaseFirestore
+import com.example.jatrenammapride.ui.theme.LightCream
 
 @OptIn(ExperimentalMaterial3Api::class)
 
@@ -39,15 +40,14 @@ fun ScheduleScreen(
     navController: NavController
 ) {
 
-    val firestore = FirebaseFirestore.getInstance()
-
     val eventList = remember {
         mutableStateListOf<Event>()
     }
 
-    LaunchedEffect(Unit) {
+    DisposableEffect(Unit) {
 
-        firestore.collection("schedule")
+        val listener = FirebaseModule.firestore
+            .collection("schedule")
             .addSnapshotListener { value, _ ->
 
                 eventList.clear()
@@ -63,12 +63,14 @@ fun ScheduleScreen(
                     }
                 }
             }
+
+        onDispose { listener.remove() }
     }
 
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color(0xFFFFF3E0))
+            .background(LightCream)
     ) {
 
         CenterAlignedTopAppBar(
@@ -99,7 +101,7 @@ fun ScheduleScreen(
         LazyColumn(
 
             modifier = Modifier
-                .fillMaxSize()
+                .weight(1f)
                 .padding(12.dp)
         ) {
 
